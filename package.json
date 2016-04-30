@@ -1,0 +1,41 @@
+{
+  "name": "rss-to-json",
+  "version": "1.0.2",
+  "description": "Rss to Json: RSS and Atom feed generator for Node.js",
+  "author": {
+    "name": "Nasa8x",
+    "email": "nasa8x@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "request": "^2.72.0",
+    "xml2js": "^0.4.16"
+  },
+  "keywords": [
+    "rss-to-json",
+    "rss",
+    "rssparser",
+    "rssreader",
+    "rss reader",
+    "rss parser",
+    "rss",
+    "parser",
+    "reader",
+    "xml2js",
+    "xml2json",
+    "rss to json",
+    "rss2json",
+    "rss 2 json",
+    "feed-read",
+    "feed read",
+    "feed",
+    "feedparser",
+    "feed-parser",
+    "feed parser",
+    "feed-reader",
+    "feedreader",
+    "feed reader",
+    "rss json"
+
+  ]
+}

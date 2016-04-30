@@ -1,0 +1,10 @@
+node_modules/*
+.vscode
+*.rar
+*.zip
+.svn/*
+obj/*
+*.bak
+config.js
+.log
+note.txt
