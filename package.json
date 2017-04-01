@@ -11,6 +11,10 @@
     "request": "^2.72.0",
     "xml2js": "^0.4.16"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/nasa8x/rss-to-json"
+  },
   "keywords": [
     "rss-to-json",
     "rss",

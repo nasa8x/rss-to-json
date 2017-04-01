@@ -24,13 +24,12 @@ module.exports = {
                       callback(err, null);
                   });
                   parser.parseString(xml, function (err, result) {
-                       var rss = $.parser(result);
+                      var rss = $.parser(result);
                       callback(null, rss);
-                      //console.log(JSON.stringify(result.rss.channel));
                     });
 
                 }else {
-                  this.emit('error', new Error('Bad status code'));
+                  callback(new Error('Bad status code'), null);
                 }
               });
 
