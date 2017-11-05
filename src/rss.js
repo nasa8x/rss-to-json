@@ -50,6 +50,20 @@ module.exports = {
          if (channel.link) {
              rss.url = channel.link[0];
          }
+         if (channel.image) {
+          rss.image = channel.image[0].url
+         }
+
+         if (channel["itunes:image"]) {
+          rss.image = channel['itunes:image'][0].href
+         }
+
+         if (rss.image) {
+          if (Array.isArray(rss.image)) {
+           rss.image = rss.image.join();
+          }
+         }
+
          if (channel.item) {
            if (!util.isArray(channel.item)) {
              channel.item = [channel.item];
