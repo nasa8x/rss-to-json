@@ -1,18 +1,14 @@
 
-#About
+
 Util for parse ATOM and RSS feed resources and normalize them to JSON object.
 
-# Installation
-
-Install via NPM
+## Install
 
 ```js
-
-npm install rss-to-json
-
+npm install rss-to-json --save
 ```
 
-# Example
+## Example
 
 ```js
 
@@ -23,7 +19,7 @@ Feed.load('https://codek.tv/feed/', function(err, rss){
 });
 
 ```
-# Result
+## Result
 ```js
 
   {
