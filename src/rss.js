@@ -31,6 +31,7 @@ module.exports = {
 
       } else {
         this.emit('error', new Error('Bad status code'));
+        callback({ error, response }, null);
       }
     });
 
