@@ -131,6 +131,23 @@ module.exports = {
   },
   read: function (url, callback) {
     return this.load(url, callback);
+  },
+  main: function() {
+    if (process.argv.length < 3) {
+      console.log("Usage: rss-to-json URL-OF-FEED");
+    } else {
+      module.exports.read(process.argv[2], function(err, result) {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log(JSON.stringify(result, null, 2));
+        }
+      });
+    }
   }
-
 };
+
+// if we were called from the command line
+if (typeof require != 'undefined' && require.main==module) {
+  main();
+}
