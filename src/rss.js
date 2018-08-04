@@ -69,8 +69,10 @@ module.exports = {
       channel.item.forEach(function (val) {
         var obj = {};
         obj.title = !util.isNullOrUndefined(val.title) ? val.title[0] : '';
+        obj.author = obj.author = !util.isNullOrUndefined(val.author) ? val.author[0] : '';
         obj.description = !util.isNullOrUndefined(val.description) ? val.description[0] : '';
         obj.url = obj.link = !util.isNullOrUndefined(val.link) ? val.link[0] : '';
+        obj.category = obj.category = !util.isNullOrUndefined(val.category) ? val.category[0] : '';
 
         if (val['itunes:subtitle']) {
           obj.itunes_subtitle = val['itunes:subtitle'][0];
