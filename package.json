@@ -1,26 +1,26 @@
 {
-  "name": "rss-to-json",
-  "version": "1.0.3",
-  "description": "Rss to Json: RSS and Atom feed generator for Node.js",
+  "name": "feed-to-json",
+  "version": "1.0.4",
+  "description": "Feed to Json: RSS and Atom feed generator for Node.js",
   "author": {
-    "name": "Nasa8x",
-    "email": "nasa8x@gmail.com"
+    "name": "Lovell D'souza",
+    "email": "lovelldies@gmail.com"
   },
   "license": "MIT",
   "dependencies": {
-    "request": "^2.83.0",
+    "request": "^2.88.0",
     "xml2js": "^0.4.19"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nasa8x/rss-to-json.git"
+    "url": "git+https://github.com/lovelldies/feed-to-json.git"
   },
   "bugs": {
-    "url": "https://github.com/nasa8x/rss-to-json/issues"
+    "url": "https://github.com/lovelldies/feed-to-json/issues"
   },
-  "homepage": "https://github.com/nasa8x/rss-to-json#readme",
+  "homepage": "https://github.com/lovelldies/feed-to-json#readme",
   "keywords": [
-    "rss-to-json",
+    "feed-to-json",
     "rss",
     "rssparser",
     "rssreader",
@@ -34,6 +34,8 @@
     "rss to json",
     "rss2json",
     "rss 2 json",
+    "feed 2 json",
+    "feed to json",
     "feed-read",
     "feed read",
     "feed",
