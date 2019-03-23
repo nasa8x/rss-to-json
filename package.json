@@ -1,6 +1,6 @@
 {
   "name": "rss-to-json",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Rss to Json: RSS and Atom feed generator for Node.js",
   "author": {
     "name": "Nasa8x",
@@ -8,7 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "request": "^2.83.0",
+    "request": "^2.88.0",
     "xml2js": "^0.4.19"
   },
   "repository": {
