@@ -24,9 +24,12 @@ module.exports = {
           callback(err, null);
         });
         parser.parseString(xml, function (err, result) {
-
-          callback(null, $.parser(result));
-          //console.log(JSON.stringify(result.rss.channel));
+          if (result.rss) {
+            callback(null, $.parser(result));
+            //console.log(JSON.stringify(result.rss.channel));
+          } else {
+            callback({'error': 'This is not an RSS feed'});
+          }
         });
 
       } else {
