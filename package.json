@@ -1,15 +1,19 @@
 {
   "name": "rss-to-json",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Rss to Json: RSS and Atom feed generator for Node.js",
-  "author": {
-    "name": "Nasa8x",
-    "email": "nasa8x@gmail.com"
-  },
+  "main": "dist/index.js",
+  "author": "Nasa8x",     
+  
   "license": "MIT",
   "dependencies": {
-    "request": "^2.83.0",
-    "xml2js": "^0.4.19"
+    "axios": "^0.19.0",
+    "xml2js": "^0.4.22"
+  },
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development webpack --progress --watch --colors",
+    "prod": "cross-env NODE_ENV=production webpack -p --progress --colors",
+    "test": "node ./test.js"
   },
   "repository": {
     "type": "git",
@@ -18,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/nasa8x/rss-to-json/issues"
   },
-  "homepage": "https://github.com/nasa8x/rss-to-json#readme",
+  "homepage": "https://morioh.com/topic/node-js",
   "keywords": [
     "rss-to-json",
     "rss",
@@ -44,5 +48,16 @@
     "feedreader",
     "feed reader",
     "rss json"
-  ]
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^0.1.19",
+    "cross-env": "^5.2.1",
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "webpack": "^4.39.3",
+    "webpack-cli": "^3.3.8",
+    "webpack-node-externals": "^1.6.0"
+  }
 }

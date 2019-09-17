@@ -2,36 +2,34 @@
 'use strict';
 var util = require('util'),
   xml2js = require('xml2js'),
-  request = require('request');
+  axios = require('axios');
 
 
 module.exports = {
   load: function (url, callback) {
     var $ = this;
-    request({
-      url: url,
+
+    axios.get(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.11; rv:45.0) Gecko/20100101 Firefox/45.0',
-        accept: 'text/html,application/xhtml+xml'
-      },
-      pool: false,
-      followRedirect: true
-
-    }, function (error, response, xml) {
-      if (!error && response.statusCode == 200) {
-        var parser = new xml2js.Parser({ trim: false, normalize: true, mergeAttrs: true });
-        parser.addListener("error", function (err) {
-          callback(err, null);
-        });
-        parser.parseString(xml, function (err, result) {
-
-          callback(null, $.parser(result));
-          //console.log(JSON.stringify(result.rss.channel));
-        });
-
-      } else {
-        this.emit('error', new Error('Bad status code'));
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36 OPR/63.0.3368.75',
+        'accept': 'text/html,application/xhtml+xml'
       }
+    }).then(function (res) {
+      var parser = new xml2js.Parser({ trim: false, normalize: true, mergeAttrs: true });     
+
+      parser.parseString(res.data, function (err, result) {
+        if (err) {
+          console.log(err);
+          callback(err, null);
+        } else {
+          callback(null, $.parser(result));
+        }
+
+      });
+
+    }).catch(function (error) {
+      console.log(error);
+      callback(error, null);
     });
 
   },
@@ -71,6 +69,27 @@ module.exports = {
         obj.title = !util.isNullOrUndefined(val.title) ? val.title[0] : '';
         obj.description = !util.isNullOrUndefined(val.description) ? val.description[0] : '';
         obj.url = obj.link = !util.isNullOrUndefined(val.link) ? val.link[0] : '';
+
+        // Medium Support via @sstrubberg
+        if (val["guid"]) {
+          obj.guid = val["guid"][0];
+        }
+        if (val["category"]) {
+          obj.category = val["category"][0];
+        }
+        if (val["dc:creator"]) {
+          obj.dc_creator = val["dc:creator"][0];
+        }
+        if (val["pubDate"]) {
+          obj.pubDate = val["pubDate"][0];
+        }
+        if (val["atom:updated"]) {
+          obj.atom_updated = val["atom:updated"][0];
+        }
+        if (val["content:encoded"]) {
+          obj.content_encoded = val["content:encoded"][0];
+        }
+        // End of Medium Support via @sstrubberg
 
         if (val['itunes:subtitle']) {
           obj.itunes_subtitle = val['itunes:subtitle'][0];
