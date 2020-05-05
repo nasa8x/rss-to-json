@@ -1,124 +1,118 @@
-// Invoke 'strict' JavaScript mode
-'use strict';
+
 var util = require('util'),
-  xml2js = require('xml2js'),
+  xml = require('xml2json'),
   axios = require('axios');
 
 
 module.exports = {
-  load: function (url, callback) {
-    var $ = this;
+  isUrl: function (s) {
+    return s && /((http(s)?):\/\/[\w\.\/\-=?#]+)/i.test(s);
+  },
+  load: function (x, callback) {
 
-    axios.get(url, {
+    var _this = this;
+    var o = {
+      method: 'get',
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36 OPR/63.0.3368.75',
-        'accept': 'text/html,application/xhtml+xml'
+        //'User-Agent': 'Mozilla/5.0 AppleWebKit/537.36 (KHTML, like Gecko; compatible; Googlebot/2.1; +http://www.google.com/bot.html) Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.129 Safari/537.36 OPR/68.0.3618.63',
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
       }
-    }).then(function (res) {
-      var parser = new xml2js.Parser({ trim: false, normalize: true, mergeAttrs: true });     
 
-      parser.parseString(res.data, function (err, result) {
-        if (err) {
-          console.log(err);
-          callback(err, null);
-        } else {
-          callback(null, $.parser(result));
-        }
+    };
 
-      });
+    if (typeof x === 'object' && x !== null) {
+      o = Object.assign(o, x);
+    } else if (this.isUrl(x)) {
+      o = Object.assign(o, { url: x });
+    }
 
-    }).catch(function (error) {
-      console.log(error);
-      callback(error, null);
+    return new Promise(function (resolve, reject) {
+      axios(o).then(function ({ data }) {
+        var result = _this.parser(data);
+        callback && callback(null, result);
+        resolve(result);
+
+      }).catch(function (err) {
+        callback && callback(err, null);
+        reject(err);
+      })
     });
 
   },
-  parser: function (json) {
-    var channel = json.rss.channel;
+  parser: function (data) {
+
     var rss = { items: [] };
-    if (util.isArray(json.rss.channel))
-      channel = json.rss.channel[0];
+    var result = xml.toJson(data, { object: true });
+    var channel = result.rss && result.rss.channel ? result.rss.channel : result.feed;
+    if (util.isArray(channel)) channel = channel[0];
+
+    var items = channel.item || channel.entry;
 
     if (channel.title) {
-      rss.title = channel.title[0];
-    }
-    if (channel.description) {
-      rss.description = channel.description[0];
-    }
-    if (channel.link) {
-      rss.url = channel.link[0];
+      rss.title = channel.title;
     }
 
-    // add rss.image via @dubyajaysmith
+    if (channel.description) {
+      rss.description = channel.description;
+    }
+
+    rss.link = channel.link && channel.link.href ? channel.link.href : channel.link;
+    rss.category = channel.category || [];
+
     if (channel.image) {
-      rss.image = channel.image[0].url
+      rss.image = channel.image.url;
     }
 
     if (!rss.image && channel["itunes:image"]) {
-      rss.image = channel['itunes:image'][0].href
+      rss.image = channel['itunes:image'].href;
     }
 
-    rss.image = rss.image && Array.isArray(rss.image) ? rss.image[0] : '';
+    if (items && items.length > 0) {
 
-    if (channel.item) {
-      if (!util.isArray(channel.item)) {
-        channel.item = [channel.item];
-      }
-      channel.item.forEach(function (val) {
+      for (let i = 0; i < items.length; i++) {
+        var val = items[i];
+
         var obj = {};
-        obj.title = !util.isNullOrUndefined(val.title) ? val.title[0] : '';
-        obj.description = !util.isNullOrUndefined(val.description) ? val.description[0] : '';
-        obj.url = obj.link = !util.isNullOrUndefined(val.link) ? val.link[0] : '';
+        obj.title = val.title;
+        obj.id = val.guid && val.guid.$t ? val.guid.$t : val.id;
+        obj.description = val.summary && val.summary.$t ? val.summary.$t : val.description;
+        obj.url = val.link && val.link.href ? val.link.href : val.link;
+        obj.link = obj.url;
+        obj.author = val.author && val.author.name ? val.author.name : val['dc:creator'];
+        obj.created = val.updated ? Date.parse(val.updated) : val.pubDate ? Date.parse(val.pubDate) : Date.now;
+        obj.category = val.category || [];
 
         // Medium Support via @sstrubberg
-        if (val["guid"]) {
-          obj.guid = val["guid"][0];
-        }
-        if (val["category"]) {
-          obj.category = val["category"][0];
-        }
-        if (val["dc:creator"]) {
-          obj.dc_creator = val["dc:creator"][0];
-        }
-        if (val["pubDate"]) {
-          obj.pubDate = val["pubDate"][0];
-        }
-        if (val["atom:updated"]) {
-          obj.atom_updated = val["atom:updated"][0];
-        }
         if (val["content:encoded"]) {
-          obj.content_encoded = val["content:encoded"][0];
+          obj.content_encoded = val["content:encoded"];
         }
-        // End of Medium Support via @sstrubberg
 
         if (val['itunes:subtitle']) {
-          obj.itunes_subtitle = val['itunes:subtitle'][0];
+          obj.itunes_subtitle = val['itunes:subtitle'];
         }
         if (val['itunes:summary']) {
-          obj.itunes_summary = val['itunes:summary'][0];
+          obj.itunes_summary = val['itunes:summary'];
         }
         if (val['itunes:author']) {
-          obj.itunes_author = val['itunes:author'][0];
+          obj.itunes_author = val['itunes:author'];
         }
         if (val['itunes:explicit']) {
-          obj.itunes_explicit = val['itunes:explicit'][0];
+          obj.itunes_explicit = val['itunes:explicit'];
         }
         if (val['itunes:duration']) {
-          obj.itunes_duration = val['itunes:duration'][0];
+          obj.itunes_duration = val['itunes:duration'];
         }
         if (val['itunes:season']) {
-          obj.itunes_season = val['itunes:season'][0];
+          obj.itunes_season = val['itunes:season'];
         }
         if (val['itunes:episode']) {
-          obj.itunes_episode = val['itunes:episode'][0];
+          obj.itunes_episode = val['itunes:episode'];
         }
         if (val['itunes:episodeType']) {
-          obj.itunes_episodeType = val['itunes:episodeType'][0];
+          obj.itunes_episode_type = val['itunes:episodeType'];
         }
-        if (val.pubDate) {
-          //lets try basis js date parsing for now
-          obj.created = Date.parse(val.pubDate[0]);
-        }
+
         if (val['media:content']) {
           obj.media = val.media || {};
           obj.media.content = val['media:content'];
@@ -127,27 +121,16 @@ module.exports = {
           obj.media = val.media || {};
           obj.media.thumbnail = val['media:thumbnail'];
         }
-        if (val.enclosure) {
-          obj.enclosures = [];
-          if (!util.isArray(val.enclosure))
-            val.enclosure = [val.enclosure];
-          val.enclosure.forEach(function (enclosure) {
-            var enc = {};
-            for (var x in enclosure) {
-              enc[x] = enclosure[x][0];
-            }
-            obj.enclosures.push(enc);
-          });
 
-        }
-        rss.items.push(obj);
-
-      });
-
+        obj.enclosures = val.enclosure ? util.isArray(val.enclosure) ? val.enclosure : [val.enclosure] : [];
+        rss.items.unshift(obj);
+      }
     }
+
     return rss;
 
   },
+
   read: function (url, callback) {
     return this.load(url, callback);
   }
