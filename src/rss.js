@@ -111,19 +111,24 @@ module.exports = {
         }
         if (val['itunes:episodeType']) {
           obj.itunes_episode_type = val['itunes:episodeType'];
+        }       
+
+        obj.enclosures = val.enclosure ? util.isArray(val.enclosure) ? val.enclosure : [val.enclosure] : [];
+
+        if (val['media:thumbnail']) {
+          obj.media = val.media || {};
+          obj.media.thumbnail = val['media:thumbnail'];
+          obj.enclosures.push(val['media:thumbnail']);
         }
 
         if (val['media:content']) {
           obj.media = val.media || {};
           obj.media.content = val['media:content'];
-        }
-        if (val['media:thumbnail']) {
-          obj.media = val.media || {};
-          obj.media.thumbnail = val['media:thumbnail'];
+
+          obj.enclosures.push(val['media:content']);
         }
 
-        obj.enclosures = val.enclosure ? util.isArray(val.enclosure) ? val.enclosure : [val.enclosure] : [];
-        rss.items.unshift(obj);
+        rss.items.push(obj);
       }
     }
 
