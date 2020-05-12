@@ -34,6 +34,7 @@ module.exports = {
         resolve(result);
 
       }).catch(function (err) {
+        console.log(err);
         callback && callback(err, null);
         reject(err);
       })
@@ -44,6 +45,9 @@ module.exports = {
 
     var rss = { items: [] };
     var result = xml.toJson(data, { object: true });
+
+    // console.log(result.feed.entry[0].summary.$t);
+
     var channel = result.rss && result.rss.channel ? result.rss.channel : result.feed;
     if (util.isArray(channel)) channel = channel[0];
 
@@ -82,10 +86,12 @@ module.exports = {
         obj.author = val.author && val.author.name ? val.author.name : val['dc:creator'];
         obj.created = val.updated ? Date.parse(val.updated) : val.pubDate ? Date.parse(val.pubDate) : Date.now;
         obj.category = val.category || [];
+        obj.content = val.content && val.content.$t ? val.content.$t : null;
 
         // Medium Support via @sstrubberg
         if (val["content:encoded"]) {
           obj.content_encoded = val["content:encoded"];
+          obj.content = obj.content_encoded;
         }
 
         if (val['itunes:subtitle']) {
@@ -111,7 +117,7 @@ module.exports = {
         }
         if (val['itunes:episodeType']) {
           obj.itunes_episode_type = val['itunes:episodeType'];
-        }       
+        }
 
         obj.enclosures = val.enclosure ? util.isArray(val.enclosure) ? val.enclosure : [val.enclosure] : [];
 
@@ -126,6 +132,20 @@ module.exports = {
           obj.media.content = val['media:content'];
 
           obj.enclosures.push(val['media:content']);
+        }
+
+        if (val['media:group']) {
+
+          if (val['media:group']['media:title'])
+            obj.title = val['media:group']['media:title'];
+
+          if (val['media:group']['media:description'])
+            obj.description = val['media:group']['media:description'];
+
+          if (val['media:group']['media:thumbnail'])
+            obj.enclosures.push(val['media:group']['media:thumbnail'].url);
+
+
         }
 
         rss.items.push(obj);
