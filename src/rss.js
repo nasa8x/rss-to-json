@@ -46,7 +46,9 @@ module.exports = {
     var rss = { items: [] };
     var result = xml.toJson(data, { object: true });
 
-    // console.log(result.feed.entry[0].summary.$t);
+    // console.log(result.feed.entry[0]);
+
+    // return;
 
     var channel = result.rss && result.rss.channel ? result.rss.channel : result.feed;
     if (util.isArray(channel)) channel = channel[0];
@@ -78,7 +80,7 @@ module.exports = {
         var val = items[i];
 
         var obj = {};
-        obj.title = val.title;
+        obj.title = val.title.$t ? val.title.$t : val.title;
         obj.id = val.guid && val.guid.$t ? val.guid.$t : val.id;
         obj.description = val.summary && val.summary.$t ? val.summary.$t : val.description;
         obj.url = val.link && val.link.href ? val.link.href : val.link;
