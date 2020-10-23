@@ -95,7 +95,7 @@ module.exports = {
         obj.link = obj.url;
         obj.author = val.author && val.author.name ? val.author.name : val['dc:creator'];
         obj.published = val.published ? Date.parse(val.published) : val.created ? Date.parse(val.created) : val.pubDate ? Date.parse(val.pubDate) : Date.now();
-        obj.created = val.updated ? Date.parse(val.updated) : val.pubDate ? Date.parse(val.pubDate) : val.created ? Date.parse(val.created) : Date.now;
+        obj.created = val.updated ? Date.parse(val.updated) : val.pubDate ? Date.parse(val.pubDate) : val.created ? Date.parse(val.created) : val.published ? Date.parse(val.published) : Date.now;
         obj.category = val.category || [];
         obj.content = val.content && val.content.$t ? val.content.$t : null;
 
