@@ -8,7 +8,7 @@ module.exports = {
   isUrl: function (s) {
     return s && /((http(s)?):\/\/[\w\.\/\-=?#]+)/i.test(s);
   },
-  load: function (x, callback) {
+  load: function (x, callback, log=true) {
 
     var _this = this;
     var o = {
@@ -34,7 +34,7 @@ module.exports = {
         resolve(result);
 
       }).catch(function (err) {
-        console.log(err);
+        if(log) console.log(err);
         callback && callback(err, null);
         reject(err);
       })
