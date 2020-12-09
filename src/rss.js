@@ -74,7 +74,7 @@ module.exports = {
       rss.image = channel['itunes:image'].href;
     }
 
-    if(items && !Array.isArray(items)) {
+    if (items && !Array.isArray(items)) {
       // the main 'items' code block below expects the items variable to be an Array of Objects
       // but if in the originating XML the channel element contains only a single item, the items
       // variable is set to a literal Object instead of an Array of Objects of length 1. It is fixed
@@ -128,6 +128,9 @@ module.exports = {
         }
         if (val['itunes:episodeType']) {
           obj.itunes_episode_type = val['itunes:episodeType'];
+        }
+        if (val['itunes:image']) {
+          obj.itunes_image = val['itunes:image'].href;
         }
 
         obj.enclosures = val.enclosure ? util.isArray(val.enclosure) ? val.enclosure : [val.enclosure] : [];
