@@ -2,14 +2,18 @@
 
 Util for parse ATOM and RSS feed resources and normalize them to JSON object.
 
-[MEAN vs. MERN vs. MEVN - What’s the Difference](https://morioh.com/p/e010d0aaf16e)
+[Extract Title, Description, Keywords and Images from URLs with Node.js](https://morioh.com/p/d1eac65676af)
 
-[How to Creat a Task Management App Using Vue.js and a Node.js](https://morioh.com/p/1c085eda13b5)
+[An infinite scroll paginate plugin for Vue.js 3.0](https://morioh.com/p/7b9ca2c79570)
 
 ## Install
 
 ```
 npm install rss-to-json --save
+```
+
+```
+yarn add rss-to-json
 ```
 
 ## Example
@@ -212,3 +216,25 @@ console.log(JSON.stringify(rss, null, 3));
 }
 
 ```
+Contributing
+------------
+
+Please refer to each project's style and contribution guidelines for submitting patches and additions. In general, we follow the "fork-and-pull" Git workflow.
+
+ 1. **Fork** the repo on GitHub
+ 2. **Clone** the project to your own machine
+ 3. **Commit** changes to your own branch
+ 4. **Push** your work back up to your fork
+ 5. Submit a **Pull request** so that we can review your changes
+
+NOTE: Be sure to merge the latest from "upstream" before making a pull request!
+
+Community
+------------
+Stay up to date on the development of Morioh UI and reach out to the community with these helpful resources.
+
+Follow [@codek_tv](https://twitter.com/codek_tv) and [@im_a_developer](https://twitter.com/im_a_developer) on Twitter.
+
+Follow [Morioh](https://www.facebook.com/moriohdotcom) and [Vue Developers](https://www.facebook.com/VueDevelopers) on FaceBook.
+
+Join the official [Discord](https://discord.gg/sqxU6un) room: [https://discord.gg/sqxU6un](https://discord.gg/sqxU6un).

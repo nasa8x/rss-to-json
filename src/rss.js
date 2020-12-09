@@ -1,6 +1,5 @@
 
-var util = require('util'),
-  xml = require('xml2json'),
+var xml = require('xml2json'),
   axios = require('axios');
 
 
@@ -51,7 +50,7 @@ module.exports = {
     // return;
 
     var channel = result.rss && result.rss.channel ? result.rss.channel : result.feed;
-    if (util.isArray(channel)) channel = channel[0];
+    if (Array.isArray(channel)) channel = channel[0];
 
     var items = channel.item || channel.entry;
 
@@ -133,7 +132,7 @@ module.exports = {
           obj.itunes_image = val['itunes:image'].href;
         }
 
-        obj.enclosures = val.enclosure ? util.isArray(val.enclosure) ? val.enclosure : [val.enclosure] : [];
+        obj.enclosures = val.enclosure ? Array.isArray(val.enclosure) ? val.enclosure : [val.enclosure] : [];
 
         if (val['media:thumbnail']) {
           obj.media = val.media || {};
