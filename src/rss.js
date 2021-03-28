@@ -106,7 +106,7 @@ module.exports = {
         
         // Captivate Support via @cvburgess
         if (val["podcast:transcript"]) {
-          obj.podcast_transcript = val["podcast:transcript"];
+          obj.podcast_transcript = val["podcast:transcript"].url;
         }
 
         if (val['itunes:subtitle']) {
