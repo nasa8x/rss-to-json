@@ -103,6 +103,11 @@ module.exports = {
           obj.content_encoded = val["content:encoded"];
           obj.content = obj.content_encoded;
         }
+        
+        // Captivate Support via @cvburgess
+        if (val["podcast:transcript"]) {
+          obj.podcast_transcript = val["podcast:transcript"].url;
+        }
 
         if (val['itunes:subtitle']) {
           obj.itunes_subtitle = val['itunes:subtitle'];
