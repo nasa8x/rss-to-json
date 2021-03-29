@@ -9,9 +9,9 @@ module.exports = function (env) {
         ///----------------------------
         {
 
-            mode: 'development',
+           
             target: 'node',
-            devtool: '#source-map',
+            // devtool: 'source-map',
             node: {
                 __dirname: true,
                 __filename: true,
@@ -36,16 +36,7 @@ module.exports = function (env) {
                         test: /\.js$/,
                         loader: 'babel-loader',
                         //exclude: /node_modules/
-                    },
-                    {
-                        test: /\.html$/,
-                        loader: 'html-loader',
-                        query: {
-                            minimize: false
-                        }
-                    },
-
-
+                    }
                 ]
             },
             //externals: [/^(?!\.|\/).+/i,],
