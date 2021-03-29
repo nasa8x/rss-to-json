@@ -109,6 +109,27 @@ module.exports = {
           obj.podcast_transcript = val["podcast:transcript"].url;
         }
 
+        // Medium Support via @sstrubberg
+        if (val["guid"]) {
+          obj.guid = val["guid"][0];
+        }
+        if (val["category"]) {
+          obj.category = val["category"][0];
+        }
+        if (val["dc:creator"]) {
+          obj.dc_creator = val["dc:creator"][0];
+        }
+        if (val["pubDate"]) {
+          obj.pubDate = val["pubDate"][0];
+        }
+        if (val["atom:updated"]) {
+          obj.atom_updated = val["atom:updated"][0];
+        }
+        if (val["content:encoded"]) {
+          obj.content_encoded = val["content:encoded"][0];
+        }
+        // End of Medium Support via @sstrubberg
+        
         if (val['itunes:subtitle']) {
           obj.itunes_subtitle = val['itunes:subtitle'];
         }
