@@ -1,12 +1,13 @@
-node_modules/*
 .DS_Store
+node_modules/
 .vscode
+*.log
 *.rar
 *.zip
 .svn/*
 obj/*
 *.bak
 config.js
-app.js
-.log
+**/env/production.js
 note.txt
+package-lock.json
