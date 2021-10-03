@@ -1,5 +1,5 @@
 
-import parse from "./parse";
+import parse, {parser} from "./parse";
 const Parse = parse;
 export default parse;
-export { parse, Parse }
+export { parse, Parse, parser }

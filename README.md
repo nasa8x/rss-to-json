@@ -31,6 +31,15 @@ const { parse } = require('rss-to-json');
 ```
 
 ```js
+   const { parser } = require('rss-to-json');
+   // Retrieve the data from any source
+   const rssObj = parser(stringWithRSSData);
+   console.log(JSON.stringify(rss, null, 3));
+
+```
+
+
+```js
 // Promise
 
 parse('https://blog.ethereum.org/feed.xml').then(rss => {

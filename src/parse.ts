@@ -7,8 +7,13 @@ export default async (url: string, config: AxiosRequestConfig) => {
 
     const { data } = await axios(url, config);
 
-    const result = parse(data);  
+    return parser(data);
+    
+}
 
+export const parser = (data) => {
+
+    const result = parse(data);  
 
     let channel = result.rss && result.rss.channel ? result.rss.channel : result.feed;
     if (Array.isArray(channel)) channel = channel[0];
@@ -76,6 +81,5 @@ export default async (url: string, config: AxiosRequestConfig) => {
 
 
     return rss;
-
 }
 
