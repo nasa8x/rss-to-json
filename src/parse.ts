@@ -4,16 +4,20 @@ import axios, { AxiosRequestConfig } from 'axios';
 export default async (url: string, config: AxiosRequestConfig) => {
 
     if (!/(^http(s?):\/\/[^\s$.?#].[^\s]*)/i.test(url)) return null;
-
     const { data } = await axios(url, config);
-
     return parser(data);
     
 }
 
 export const parser = (data) => {
 
-    const result = parse(data);  
+
+    const result = parse(data, {
+        attributeNamePrefix: "",
+        //attrNodeName: "attr", //default is 'false'
+        textNodeName: "$text",
+        ignoreAttributes: false
+    });
 
     let channel = result.rss && result.rss.channel ? result.rss.channel : result.feed;
     if (Array.isArray(channel)) channel = channel[0];
@@ -37,14 +41,14 @@ export const parser = (data) => {
 
         let obj = {
             id: val.guid && val.guid.$t ? val.guid.$t : val.id,
-            title: val.title && val.title.$t ? val.title.$t : val.title,
-            description: val.summary && val.summary.$t ? val.summary.$t : val.description,
+            title: val.title && val.title.$text ? val.title.$text : val.title,
+            description: val.summary && val.summary.$text ? val.summary.$text : val.description,
             link: val.link && val.link.href ? val.link.href : val.link,
             author: val.author && val.author.name ? val.author.name : val['dc:creator'],
             published: val.created ? Date.parse(val.created) : val.pubDate ? Date.parse(val.pubDate) : Date.now(),
             created: val.updated ? Date.parse(val.updated) : val.pubDate ? Date.parse(val.pubDate) : val.created ? Date.parse(val.created) : Date.now(),
             category: val.category || [],
-            content: val.content && val.content.$t ? val.content.$t : val['content:encoded'],
+            content: val.content && val.content.$text ? val.content.$text : val['content:encoded'],
             enclosures: val.enclosure ? Array.isArray(val.enclosure) ? val.enclosure : [val.enclosure] : []
         };
 
