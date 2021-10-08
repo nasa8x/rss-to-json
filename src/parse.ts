@@ -23,6 +23,7 @@ export default async (url: string, config: AxiosRequestConfig) => {
         link: channel.link && channel.link.href ? channel.link.href : channel.link,
         image: channel.image ? channel.image.url : channel["itunes:image"] ? channel['itunes:image'].href : '',
         category: channel.category || [],
+        updated: channel.lastBuildDate || channel.updated || '',
         items: []
     };
 
