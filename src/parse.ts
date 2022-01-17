@@ -1,7 +1,7 @@
 import { parse } from 'fast-xml-parser';
 import axios, { AxiosRequestConfig } from 'axios';
 
-export default async (url: string, config: AxiosRequestConfig) => {
+export default async (url: string, config?: AxiosRequestConfig) => {
 
     if (!/(^http(s?):\/\/[^\s$.?#].[^\s]*)/i.test(url)) return null;
 
