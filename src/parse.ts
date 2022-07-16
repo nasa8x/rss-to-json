@@ -26,7 +26,7 @@ export default async (url: string, config: AxiosRequestConfig) => {
         items: []
     };
 
-    let items = channel.item || channel.entry;
+    let items = channel.item || channel.entry || [];
     if (items && !Array.isArray(items)) items = [items];
 
 
