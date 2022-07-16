@@ -9,7 +9,7 @@ const { parse, Parse } = require('./dist');
 
     // var rss = await parse('https://pub.dev/feed.atom');
 
-       var rss = await parse('https://blog.laravel.com/feed');
+       var rss = await parse('https://medium.com/feed/@extropy-io');
 
     console.log(JSON.stringify(rss, null, 3));
 
