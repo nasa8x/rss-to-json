@@ -40,7 +40,7 @@ export default async (url: string, config?: AxiosRequestConfig) => {
             link: val.link && val.link.href ? val.link.href : val.link,
             author: val.author && val.author.name ? val.author.name : val['dc:creator'],
             published: val.created ? Date.parse(val.created) : val.pubDate ? Date.parse(val.pubDate) : val.published ? Data.parse(val.published) : Date.now(),
-            created: val.updated ? Date.parse(val.updated) : val.pubDate ? Date.parse(val.pubDate) : val.created ? Date.parse(val.created) : val.published ? Date.parse(val.published) : Date.now(),
+            created: val.published ? Date.parse(val.published) : val.updated ? Date.parse(val.updated) : val.pubDate ? Date.parse(val.pubDate) : val.created ? Date.parse(val.created) : Date.now(),
             category: val.category || [],
             content: val.content && val.content.$text ? val.content.$text : val['content:encoded'],
             enclosures: val.enclosure ? (Array.isArray(val.enclosure) ? val.enclosure : [val.enclosure]) : [],
