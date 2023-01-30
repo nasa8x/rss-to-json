@@ -34,7 +34,7 @@ export default async (url: string, config?: AxiosRequestConfig) => {
         const media = {};
 
         const obj = {
-            id: val.guid && val.guid.$t ? val.guid.$t : val.id,
+            id: val.guid && val.guid.$text ? val.guid.$text : val.id,
             title: val.title && val.title.$text ? val.title.$text : val.title,
             description: val.summary && val.summary.$text ? val.summary.$text : val.description,
             link: val.link && val.link.href ? val.link.href : val.link,
