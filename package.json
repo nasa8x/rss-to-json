@@ -1,6 +1,6 @@
 {
   "name": "rss-to-json",
-  "version": "2.1.1",
+  "version": "2.1.1.patch-1",
   "description": "Rss to Json: RSS and Atom feed generator for Node.js",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
