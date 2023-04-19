@@ -1,10 +1,12 @@
 import { XMLParser } from 'fast-xml-parser';
-import axios, { AxiosRequestConfig } from 'axios';
 
-export default async (url: string, config?: AxiosRequestConfig) => {
+export default async (url: string, config?: any) => {
     if (!/(^http(s?):\/\/[^\s$.?#].[^\s]*)/i.test(url)) return null;
 
-    const { data } = await axios(url, config);
+    // const { data } = await axios(url, config);
+
+    const res = await fetch(url, config);
+    const data = await res.text();
 
     const xml = new XMLParser({
         attributeNamePrefix: '',
@@ -39,7 +41,7 @@ export default async (url: string, config?: AxiosRequestConfig) => {
             description: val.summary && val.summary.$text ? val.summary.$text : val.description,
             link: val.link && val.link.href ? val.link.href : val.link,
             author: val.author && val.author.name ? val.author.name : val['dc:creator'],
-            published: val.created ? Date.parse(val.created) : val.pubDate ? Date.parse(val.pubDate) : val.published ?Date.parse(val.published) : Date.now(),
+            published: val.created ? Date.parse(val.created) : val.pubDate ? Date.parse(val.pubDate) : val.published ? Date.parse(val.published) : Date.now(),
             created: val.published ? Date.parse(val.published) : val.updated ? Date.parse(val.updated) : val.pubDate ? Date.parse(val.pubDate) : val.created ? Date.parse(val.created) : Date.now(),
             category: val.category || [],
             content: val.content && val.content.$text ? val.content.$text : val['content:encoded'],

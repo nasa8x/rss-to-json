@@ -1,5 +1,4 @@
-import { AxiosRequestConfig } from 'axios';
-declare const _default: (url: string, config?: AxiosRequestConfig) => Promise<{
+declare const _default: (url: string, config?: any) => Promise<{
     title: any;
     description: any;
     link: any;

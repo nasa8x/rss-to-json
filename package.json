@@ -69,7 +69,9 @@
     "webpack-node-externals": "^3.0.0"
   },
   "dependencies": {
-    "axios": "^1.2.6",
     "fast-xml-parser": "^4.0.15"
+  },
+  "volta": {
+    "node": "18.16.0"
   }
 }

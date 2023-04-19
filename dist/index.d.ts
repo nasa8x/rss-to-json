@@ -1,5 +1,5 @@
 import parse from "./parse";
-declare const Parse: (url: string, config?: import("axios").AxiosRequestConfig<any>) => Promise<{
+declare const Parse: (url: string, config?: any) => Promise<{
     title: any;
     description: any;
     link: any;
