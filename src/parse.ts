@@ -66,6 +66,8 @@ export default async (url: string, config?: AxiosRequestConfig) => {
             if (val['media:group']['media:description']) obj.description = val['media:group']['media:description'];
 
             if (val['media:group']['media:thumbnail']) obj.enclosures.push(val['media:group']['media:thumbnail'].url);
+
+            if (val['media:group']['media:content']) obj.enclosures.push(val['media:group']['media:content']);
         }
 
         Object.assign(obj, { media });
