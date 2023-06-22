@@ -1,10 +1,14 @@
 import { XMLParser } from 'fast-xml-parser';
 import axios, { AxiosRequestConfig } from 'axios';
 
-export default async (url: string, config?: AxiosRequestConfig) => {
+export type CustomHTTPClient = (url: string) => Promise<{ data: string }>;
+
+export default async (url: string, configOrClient?: AxiosRequestConfig | CustomHTTPClient) => {
     if (!/(^http(s?):\/\/[^\s$.?#].[^\s]*)/i.test(url)) return null;
 
-    const { data } = await axios(url, config);
+    const fetcher = isClient(configOrClient) ? configOrClient : (url: string) => axios(url, configOrClient);
+
+    const { data } = await fetcher(url);
 
     const xml = new XMLParser({
         attributeNamePrefix: '',
@@ -77,3 +81,7 @@ export default async (url: string, config?: AxiosRequestConfig) => {
 
     return rss;
 };
+
+function isClient(configOrClient: AxiosRequestConfig | CustomHTTPClient): configOrClient is CustomHTTPClient {
+    return typeof configOrClient === 'function';
+}
