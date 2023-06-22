@@ -257,6 +257,22 @@ parse('https://blog.ethereum.org/feed.xml').then(rss => {
 
 [An infinite scroll paginate plugin for Vue.js 3.0](https://morioh.com/p/7b9ca2c79570)
 
+## Custom HTTP client
+
+You can pass a custom HTTP client if you don't want to use Axios.
+
+```js
+import { parse } from 'rss-to-json';
+
+const client = (url: string) => fetch(url).then((r) => r.text()).then((data) => ({ data }));
+
+(async () => {
+  const rss = await parse('https://blog.ethereum.org/feed.xml', client);
+
+  console.log(JSON.stringify(rss, null, 3));
+})();
+```
+
 Contributing
 ------------
 
