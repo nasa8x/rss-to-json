@@ -1,9 +1,9 @@
 import { XMLParser } from 'fast-xml-parser';
 import axios, { AxiosRequestConfig } from 'axios';
 
-type HTTPClient = (url: string) => Promise<{ data: string }>;
+export type CustomHTTPClient = (url: string) => Promise<{ data: string }>;
 
-export default async (url: string, configOrClient?: AxiosRequestConfig | HTTPClient) => {
+export default async (url: string, configOrClient?: AxiosRequestConfig | CustomHTTPClient) => {
     if (!/(^http(s?):\/\/[^\s$.?#].[^\s]*)/i.test(url)) return null;
 
     const fetcher = isClient(configOrClient) ? configOrClient : (url: string) => axios(url, configOrClient);
@@ -82,6 +82,6 @@ export default async (url: string, configOrClient?: AxiosRequestConfig | HTTPCli
     return rss;
 };
 
-function isClient(configOrClient: AxiosRequestConfig | HTTPClient): configOrClient is HTTPClient {
+function isClient(configOrClient: AxiosRequestConfig | CustomHTTPClient): configOrClient is CustomHTTPClient {
     return typeof configOrClient === 'function';
 }
