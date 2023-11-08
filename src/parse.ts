@@ -50,6 +50,16 @@ export default async (url: string, config?: AxiosRequestConfig) => {
             if (val[s]) obj[s.replace(':', '_')] = val[s];
         });
 
+        if (val['podcast:person']) {
+            obj['podcast_person'] = val['podcast:person'].map((p) => {
+                if (p["$text"]) {
+                    p["name"] = p["$text"];
+                    delete p["$text"];
+                }
+                return p;
+            });
+        }
+
         if (val['media:thumbnail']) {
             Object.assign(media, { thumbnail: val['media:thumbnail'] });
             obj.enclosures.push(val['media:thumbnail']);
